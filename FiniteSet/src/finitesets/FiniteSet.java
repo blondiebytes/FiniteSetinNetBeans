@@ -1,39 +1,41 @@
 
 package finitesets;
 
-/**
- *
- * @author kathrynhodge
- */
 public class FiniteSet implements Tree{
     int root;
     Tree left;
     Tree right;  
 
-    // Constructor
+    
+    // Constructors
     public FiniteSet(int root, Tree left, Tree right) {
 	    this.root = root;
 	    this.left = left;
 	    this.right = right;
     }
     
+    
      public FiniteSet(int root) {
+         // Setting Properties
 	    this.root = root;
 	    this.left = empty();
 	    this.right = empty();
     }
 
+     
     // (empty) --> FiniteSet 
     // Returns fresh empty set
    public static Tree empty() {
+       // Calling the helper
        return new FiniteSet_Empty();
     }
+   
 
     // (cardinality t) --> integer
     // Returns the number of elements in t
     public int cardinality() {
 	// Return the sum of the number of things in the left and right trees 
-	// Counting the root as a thing we have now
+	// While counting the root as a thing we have now
 	return 1 + left.cardinality() + right.cardinality();
 	
     }
@@ -49,14 +51,13 @@ public class FiniteSet implements Tree{
     }
 
 
-
     // (member t elt) --> boolean
     // t : FiniteSet
     // elt : integer
     // Determines if elt is in t
     public boolean member(int elt) {
 	// If the root equals the element, then it's a member
-	// of the tree  and we return true
+	// of the tree and we are done and return true
 	if (root ==  elt) {
 	    return true;
 	} else {
@@ -71,11 +72,10 @@ public class FiniteSet implements Tree{
 		right.member(elt);
 	    }
 	}
+        //If it's not a member of either tree -> return false
         return false;
     }
 	
-
-
 
     // (add t elt) --> finite-set
     // t : finite-set
@@ -84,44 +84,47 @@ public class FiniteSet implements Tree{
     public FiniteSet add(int elt) {
 	// Create a new Finite Set with this root & left & right trees
 	FiniteSet finiteSet = new FiniteSet(this.root, this.left, this.right);
-	// if the root is greater than the element, then add it to the left 
+	// If the root is greater than the element, then add it to the left 
 	// tree
 	if (finiteSet.root > elt) {
 	    finiteSet.left = finiteSet.left.add(elt);
-	    // if the root is less than the element, then add it to the right tree
 	} 
+        // If the root is less than the element, then add it to the 
+        // right tree
         if (finiteSet.root < elt) {
 	    finiteSet.right = finiteSet.right.add(elt);
         }
-	// return the tree when we're done
+	// Return the tree when we're done
 	return finiteSet;
     }
 
-
-
-
-
-
+    
 	// (remove t elt) → finite-set
 	// t : finite-set
 	// elt : integer
 	// Returns a new FiniteSet without the element
  
     public Tree remove (int elt) {
-	// If this element equals the root; then take out the root by unioning  the two children
+	// If this element equals the root; then take out the root by unioning
+        // the two children
 	if (this.root  == elt) {
 	    return this.left.union(this.right);
 	} else { 
 		if (this.root > elt){ 
-		    // If the root is bigger than the element, then return a new copied  tree
-		    //  that removes the element  from the left tree
-		    return new FiniteSet(this.root, this.left.remove(elt), this.right);
+		    // If the root is more than the element, 
+                    // then return a new copied tree
+		    //  that removes the element from the left tree
+		    return new FiniteSet(this.root, this.left.remove(elt), 
+                            this.right);
 		} else {
-		    return new FiniteSet(this.root, this.left, this.right.remove(elt));
+                     // If the root is less than the element, 
+                    // then return a new copied tree
+		    //  that removes the element from the right tree
+		    return new FiniteSet(this.root, this.left, 
+                            this.right.remove(elt));
 			     }
         }
     }
-
 
 
     // (union t u) --> finite-set
@@ -129,20 +132,43 @@ public class FiniteSet implements Tree{
      // u : finite-set
     // Returns a set containing everything in t and u
         public Tree union (Tree u) {
-         // Instinct is to iterate over the add function...
-            // First create a new finiteSet
-            FiniteSet finiteSet = new FiniteSet(this.root, this.left, this.right);
-            // Union left and right
-            Tree finiteSetLR =  finiteSet.left.union(finiteSet.right);
-            // Union that with new tree
-            Tree finiteSetLRU = finiteSetLR.union(u);
-            // Add the root
-            finiteSetLRU.add(finiteSet.root);
-            return finiteSetLRU;
+          // First create a new finiteSet
+           FiniteSet finiteSet = new FiniteSet(this.root, this.left, 
+                   this.right);
+           // Union U with the unioned left & right with a copy this object; 
+           // then add the root
+           return u.union(finiteSet.left.union(finiteSet.right)).add(finiteSet.root);
 	    }
+       
                 
     public static void main(String[] args) {
-        // TODO code application logic here
+       Tree mt = empty();
+        System.out.println( "The length of it is.... " +
+                            mt.cardinality() );
+       FiniteSet l5 = (new FiniteSet (5, empty(), empty()));
+       FiniteSet l6 = (new FiniteSet (6, empty(), empty()));
+        System.out.println( "The length of it is.... " +
+                            l5.cardinality() );
+
+        System.out.println( "The length of mt after we remove 6 is... " +
+                            mt.remove(6).cardinality() +
+                            " should be 0");
+        System.out.println( "The length of l5 after we remove 6 is... " +
+                            l5.remove(6).cardinality() +
+                            " should be 1" );
+        System.out.println( "The length of l5 after we remove 5 is... " +
+                            l5.remove(5).cardinality() +
+                            " should be 0" );
+        
+       FiniteSet l7 = (new FiniteSet (7, empty(), empty()));
+       FiniteSet l8 = (new FiniteSet (8, empty(), empty()));
+        System.out.println( "This should have two elements" + l7.union(l8).cardinality());
+        System.out.println( "This should have two elements" + l8.union(l7).cardinality());
+        System.out.println(l5.union(mt).cardinality());
+        System.out.println(l6.union(mt).cardinality());
+        System.out.println(l7.add(8).cardinality());
+        System.out.println(mt.add(1).cardinality());
+
     }
     
 }
