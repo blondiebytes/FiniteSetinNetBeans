@@ -24,18 +24,42 @@ public class FiniteSet_Empty implements Tree {
     }
 
     public Tree remove (int elt) {
+        // We can't remove anything from an empty tree
+        // So return the same object
 	return this;
     }
 
     public Tree add(int elt) {
+        // The empty set plus an element is a new tree
+        // with just that element
         return new FiniteSet(elt);
     }
     
     public Tree union(Tree u) {
+        // The empty set plus a new tree is just the new tree
         return u;
     }
     
     public Tree inter(Tree u) {
+        // The empty set can't have anything in common
+        // So return an empty set
 		return empty();  
         }
+    
+    public Boolean equal (Tree u) {
+        // If they are both empty -> both have the same size
+        // Then they are the same
+        return u.cardinality() == this.cardinality();
+    }
+    
+    public Tree diff(Tree u) {
+        // Everything in u isn't in an empty set
+        return u;
+    }
+    
+    public Boolean subset (Tree u) {
+        // The empty set is a subset of everything
+        return true;
+    }
+
 }

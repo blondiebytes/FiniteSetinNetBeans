@@ -149,7 +149,7 @@ public class FiniteSet implements Tree{
             // First -> create a new Tree
             Tree finiteSet = empty();
             // If the root of u is a member of this object
-            if (member(this.root)) {
+            if (u.member(this.root)) {
                  // then add it to our new Tree
                 finiteSet.add(this.root);
             }
@@ -164,8 +164,15 @@ public class FiniteSet implements Tree{
     // t : finite-set
     // u : finite-set
     // Returns a set containing everything in t that is not in u
-        public FiniteSet diff(FiniteSet u) {
-            return new FiniteSet(1);
+        public Tree diff(Tree u) {
+            // Create a new tree
+            Tree tree = empty();
+            if (!u.member(this.root)) {
+                tree.add(this.root); 
+            }
+            this.left.diff(u);
+            this.right.diff(u);
+            return tree;
         }
 
 
@@ -173,22 +180,25 @@ public class FiniteSet implements Tree{
     // t : finite-set
     // u : finite-set
     // Determines if t and u contain the same elements
-	public Boolean equal (FiniteSet u) {
-	// check their size -> should be same or else false
-	// loop through one -> seeing if each element is the same
-            return true;
-	  }
+	public Boolean equal (Tree u) {
+            return this.inter(u) == this.union(u);
+        }
 
 
     // (subset t u) --> boolean
     // t : finite-set
     // u : finite-set
     // Determines if t is a subset of u
-        public Boolean subset (FiniteSet u) {
-	// Loop through the elements of t -> seeing if each is a member
-	// of u
-            return true;
+        public Boolean subset (Tree u) {
+	Boolean bool = false;
+            if (u.member(this.root)) {
+            bool = true;
+        } else {
+            this.left.subset(u);
+            this.right.subset(u);
 	    }
+            return bool;
+        }
 
 
 
@@ -227,6 +237,33 @@ public class FiniteSet implements Tree{
         System.out.println(l7.member(7));
         System.out.println(l8.member(7));
         System.out.println(l6.member(6));
+        
+       FiniteSet l9 = (new FiniteSet (9, empty(), empty()));
+       FiniteSet l10 = (new FiniteSet (10, empty(), empty()));
+        
+       // Inter not working -> works for base tho
+       System.out.println(l9.inter(l10).cardinality());
+       System.out.println(l9.inter(l9).cardinality());
+       System.out.println(mt.inter(mt).cardinality());
+       System.out.println(l9.inter(mt).cardinality());
+       
+       // Subset working for these cases
+       System.out.println(l9.subset(l10));
+       System.out.println(l9.subset(l9));
+       System.out.println(mt.subset(l9));
+       System.out.println(l9.subset(mt));
+       System.out.println(mt.subset(mt));
+       
+       // Equals working for these cases
+       System.out.println(l9.equals(l10));
+       System.out.println(l9.equals(l9));
+       System.out.println(l9.equals(mt));
+       System.out.println(mt.equals(l9));
+       System.out.println(mt.equals(mt));
+       
+       
+       // DIFF not working
+       System.out.println(l9.diff(l10).cardinality());
 
     }
     
