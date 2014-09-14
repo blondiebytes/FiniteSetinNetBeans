@@ -16,10 +16,16 @@ public class FiniteSet implements Tree{
 	    this.left = left;
 	    this.right = right;
     }
+    
+     public FiniteSet(int root) {
+	    this.root = root;
+	    this.left = empty();
+	    this.right = empty();
+    }
 
     // (empty) --> FiniteSet 
     // Returns fresh empty set
-   public Tree empty() {
+   public static Tree empty() {
        return new FiniteSet_Empty();
     }
 
