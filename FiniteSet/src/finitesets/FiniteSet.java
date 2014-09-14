@@ -140,6 +140,61 @@ public class FiniteSet implements Tree{
            return u.union(finiteSet.left.union(finiteSet.right)).add(finiteSet.root);
 	    }
        
+        
+    // (inter t u) --> finite-set
+    // t: finite-set
+    // u: finite-set
+    // Returns a set containing everything that is in both t and u
+        public Tree inter(Tree u) {
+            // First -> create a new Tree
+            Tree finiteSet = empty();
+            // If the root of u is a member of this object
+            if (member(this.root)) {
+                 // then add it to our new Tree
+                finiteSet.add(this.root);
+            }
+            // Otherwise keep searching
+            u.inter(this.left);
+            u.inter(this.right);
+            return finiteSet;
+        }
+
+
+    // (diff t u) --> finite-set
+    // t : finite-set
+    // u : finite-set
+    // Returns a set containing everything in t that is not in u
+        public FiniteSet diff(FiniteSet u) {
+            return new FiniteSet(1);
+        }
+
+
+    // (equal t u) --> boolean
+    // t : finite-set
+    // u : finite-set
+    // Determines if t and u contain the same elements
+	public Boolean equal (FiniteSet u) {
+	// check their size -> should be same or else false
+	// loop through one -> seeing if each element is the same
+            return true;
+	  }
+
+
+    // (subset t u) --> boolean
+    // t : finite-set
+    // u : finite-set
+    // Determines if t is a subset of u
+        public Boolean subset (FiniteSet u) {
+	// Loop through the elements of t -> seeing if each is a member
+	// of u
+            return true;
+	    }
+
+
+
+        
+        
+        
                 
     public static void main(String[] args) {
        Tree mt = empty();
@@ -168,6 +223,10 @@ public class FiniteSet implements Tree{
         System.out.println(l6.union(mt).cardinality());
         System.out.println(l7.add(8).cardinality());
         System.out.println(mt.add(1).cardinality());
+        System.out.println(mt.member(1));
+        System.out.println(l7.member(7));
+        System.out.println(l8.member(7));
+        System.out.println(l6.member(6));
 
     }
     

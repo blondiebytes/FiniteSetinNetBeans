@@ -1,6 +1,8 @@
 
 package finitesets;
 
+import static finitesets.FiniteSet.empty;
+
 public class FiniteSet_Empty implements Tree {
     
     public void FiniteSet_Empty() {
@@ -32,4 +34,8 @@ public class FiniteSet_Empty implements Tree {
     public Tree union(Tree u) {
         return u;
     }
+    
+    public Tree inter(Tree u) {
+		return empty();  
+        }
 }
