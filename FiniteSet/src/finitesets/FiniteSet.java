@@ -1,8 +1,12 @@
 
 package finitesets;
 import static finitesets.Testers.checkTree_add_cardinality;
+import static finitesets.Testers.checkTree_add_member;
+import static finitesets.Testers.checkTree_add_member_test2;
 import static finitesets.Testers.checkTree_isEmptyHuh_cardinality;
 import static finitesets.Testers.checkTree_remove_cardinality;
+import static finitesets.Testers.checkTree_union_cardinality;
+import static finitesets.Testers.checkTree_union_member;
 import static finitesets.Testers.rndInt;
 import static finitesets.Testers.rndTree;
 import java.util.Random;
@@ -227,6 +231,24 @@ public class FiniteSet implements Tree{
         System.out.println("random int = "+ rndInt(1, 50));
         System.out.println("random int = "+ rndInt(1, 50));
        
+        
+        System.out.println();
+         System.out.println("Testing for Empty() & IsEmptyHuh?");
+         System.out.println();
+         System.out.println("Should be true " + empty().isEmptyHuh());
+         System.out.println("Should be true " + empty().isEmptyHuh());
+         System.out.println("Should be true " + empty().isEmptyHuh());
+         System.out.println("Should be true " + empty().isEmptyHuh());
+         System.out.println("Should be true " + empty().isEmptyHuh());
+         System.out.println("Should be false " + rndTree(rndInt(1, 10)).isEmptyHuh());
+        System.out.println("Should be false " + rndTree(rndInt(1, 10)).isEmptyHuh());
+        System.out.println("Should be false " + rndTree(rndInt(1, 10)).isEmptyHuh());
+        System.out.println("Should be false " + rndTree(rndInt(1, 10)).isEmptyHuh());
+        System.out.println("Should be false " + rndTree(rndInt(1, 10)).isEmptyHuh());
+        System.out.println("Should be false " + rndTree(rndInt(1, 10)).isEmptyHuh());
+        System.out.println("Should be false " + rndTree(rndInt(1, 10)).isEmptyHuh());
+        
+        
          System.out.println();
          System.out.println("Testing for Cardinality & IsEmptyHuh?");
          System.out.println();
@@ -264,10 +286,57 @@ public class FiniteSet implements Tree{
             checkTree_remove_cardinality( l, elt );
         }
 
+        System.out.println();
+        System.out.println("Testing Cardinality & Union");
+        System.out.println();
+          for ( int i = 0; i < 50; i ++ ) {
+            int len = rndInt(0, 10);
+            int len2 = rndInt(0, 10);
+            Tree l = rndTree(len);
+            Tree r = rndTree(len2);
+            checkTree_union_cardinality( l, r);
+        }
+         
+        System.out.println();
+        System.out.println("Basic Testing for Add and Member");
+        System.out.println();
+         
+         // Testing Add & Member -> Member not working yet
+         for ( int i = 0; i < 50; i ++ ) {
+            int elt = rndInt(0, 10);
+            int len = rndInt(0, 10);
+            Tree l = rndTree(len);
+            checkTree_add_member( l, elt );
+        }
+        
+        System.out.println();
+        System.out.println("More Intense Testing for Add and Member");
+        System.out.println();
+        
+        // Testing for Add & Member -> not working yet
+        // member (add t x) y = true <-> x = y \/ member t y = true
+          for ( int i = 0; i < 50; i ++ ) {
+            int elt = rndInt(0, 10);
+            int elt2 = rndInt(0, 10);
+            int len = rndInt(0, 10);
+            Tree l = rndTree(len);
+            checkTree_add_member_test2( l, elt, elt2);
+        }
+          
          System.out.println();
-        
-        
-        
+        System.out.println("Testing Union & Member");
+        System.out.println();
+          
+          // Testing for Union & Member --> not working yet
+        // member (union s s') x = true <-> member s x = true \/ member s' x = true
+          for (int i = 0; i < 50; i++) {
+              int elt = rndInt(0, 10);
+              int len = rndInt(0,10);
+              int len2 = rndInt(0, 10);
+              Tree l = rndTree(len);
+              Tree r = rndTree(len2);
+              checkTree_union_member(l,r, elt);
+          }
         
         
         
@@ -295,11 +364,6 @@ public class FiniteSet implements Tree{
         
         //Adding and then removing the same element
         // get back the same tree
-        
-        
-        // More Properties
-        // member (add t x) y = true <-> x = y \/ member t y = true
-        // member (union s s') x = true <-> member s x = true \/ member s' x = true
         
         // Testing union
         // forall x, y, s,

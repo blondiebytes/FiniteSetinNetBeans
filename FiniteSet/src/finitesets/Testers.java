@@ -60,6 +60,61 @@ public class Testers {
             } else System.out.println("Failure");
         }
     }
+    
+    public static void checkTree_union_cardinality(Tree l, Tree r) {
+        Tree union = l.union(r);
+        if (union.cardinality() < l.cardinality() + r.cardinality()) {
+            System.out.println("Success! There were elements in common that "
+                    + "weren't duplicated in the union");
+        } else {if (union.cardinality() == l.cardinality() + r.cardinality()) {
+                System.out.println("Success! l & r were disjoint.");
+            } else System.out.println("Failure");
+        }
+        
+    }
+    
+    
+    
+    public static void checkTree_add_member(Tree l, int elt) {
+        Tree newTree = l.add(elt);
+        if (newTree.member(elt)) {
+            System.out.println("Success! It was added to the tree");
+        } else {
+            System.out.println("Failure! The added element is not a member "
+                    + "of the finite set");
+        }
+    }
+    
+    public static void checkTree_add_member_test2(Tree l, int x, int y) {
+        Boolean bool = l.add(x).member(y);
+        if ( bool && x == y) {
+            System.out.println("Success! X = Y and it's in the tree");
+        } else { if (bool && l.member(y)) {
+            System.out.println("Success! Y was a member of y beforehand and "
+                    + "it's in the tree");
+        } else { if (!bool && (x != y || !l.member(y))) {
+            System.out.println("Success, X != Y and is not a member of the original"
+                    + " tree and therefore is not a member of this tree");
+        } else { System.out.println("Failure!");
+        }
+        }
+    }
+    }
+    
+    public static void checkTree_union_member(Tree l, Tree r, int x) {
+        Boolean bool = l.union(r).member(x);
+        if ( bool && l.member(x)) {
+            System.out.println("Success! X is a member of the l tree");
+        } else { if (bool && r.member(x)) {
+            System.out.println("Success! X is a member of the r tree");
+        } else { if (!bool && (!r.member(x) && !l.member(x))) {
+            System.out.println("Success, X is not a member of the right or left "
+                    + "tree and therefore not a part of the union");
+        } else { System.out.println("Failure!");}
+        }
+        }
+    }
+        
 }
   
 
