@@ -72,20 +72,14 @@ public class FiniteSet implements Tree{
 	// of the tree and we are done and return true
 	if (root ==  elt) {
 	    return true;
-	} else {
-	    //Check if the element is less than the root; if so, check if
-	    // the element is a member of the left tree
-	    if (root > elt) {
-		left.member(elt);
-		    } 
-	    // Otherwise, we check if the element is a member of the right
-	    // tree
-	    else {
-		right.member(elt);
-	    }
+	} 
+          //If it's not a member of either tree -> return false
+        if (!this.left.member(elt) && !this.right.member(elt)) {
+            return false;
 	}
-        //If it's not a member of either tree -> return false
-        return false;
+        // Otherwise, return true -> because then it must be a member
+        // of the right or left tree
+        return true;
     }
 	
 
@@ -118,30 +112,19 @@ public class FiniteSet implements Tree{
 	// elt : integer
 	// Returns a new FiniteSet without the element; we assume FiniteSets 
         // don't contain duplicates
- 
     public Tree remove (int elt) {
 	// If this element equals the root; then take out the root by unioning
         // the two children
 	if (this.root  == elt) {
-            // Turning two trees into one tree without the element that we 
-            // return
+            // Turning two trees into one tree without the element
 	    return this.left.union(this.right);
-	} else { 
-		if (this.root > elt){ 
-		    // If the root is more than the element, 
-                    // then return a new copied tree
-		    //  that removes the element from the left tree
-		    return new FiniteSet(this.root, this.left.remove(elt), 
-                            this.right);
-		} else {
-                     // If the root is less than the element, 
-                    // then return a new copied tree
-		    //  that removes the element from the right tree
-		    return new FiniteSet(this.root, this.left, 
-                            this.right.remove(elt));
-			     }
         }
-    }
+        // Otherwise -> keep the element and check the left and right for the
+        // element and remove it
+           return new FiniteSet(this.root, this.left.remove(elt), 
+                    this.right.remove(elt));		
+        }
+    
 
 
     // (union t u) --> finite-set
@@ -313,7 +296,7 @@ public class FiniteSet implements Tree{
         System.out.println("More Intense Testing for Add and Member");
         System.out.println();
         
-        // Testing for Add & Member -> not working yet
+        // Testing for Add & Member 
         // member (add t x) y = true <-> x = y \/ member t y = true
           for ( int i = 0; i < 50; i ++ ) {
             int elt = rndInt(0, 10);
@@ -327,7 +310,7 @@ public class FiniteSet implements Tree{
         System.out.println("Testing Union & Member");
         System.out.println();
           
-          // Testing for Union & Member --> not working yet
+          // Testing for Union & Member
         // member (union s s') x = true <-> member s x = true \/ member s' x = true
           for (int i = 0; i < 50; i++) {
               int elt = rndInt(0, 10);
@@ -337,6 +320,7 @@ public class FiniteSet implements Tree{
               Tree r = rndTree(len2);
               checkTree_union_member(l,r, elt);
           }
+           
         
         
         
