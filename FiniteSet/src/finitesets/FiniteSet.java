@@ -1,10 +1,15 @@
 
 package finitesets;
+import static finitesets.Testers.checkTree_add_cardinality;
+import static finitesets.Testers.checkTree_isEmptyHuh_cardinality;
+import static finitesets.Testers.checkTree_remove_cardinality;
 import static finitesets.Testers.rndInt;
 import static finitesets.Testers.rndTree;
 import java.util.Random;
 
 public class FiniteSet implements Tree{
+
+   
     int root;
     Tree left;
     Tree right;  
@@ -87,7 +92,7 @@ public class FiniteSet implements Tree{
     public FiniteSet add(int elt) {
 	// Create a new Finite Set with this root & left & right trees
 	FiniteSet finiteSet = new FiniteSet(this.root, this.left, this.right);
-	// If the root is greater than the element, then add it to the left 
+        // If the root is greater than the element, then add it to the left 
 	// tree
 	if (finiteSet.root > elt) {
 	    finiteSet.left = finiteSet.left.add(elt);
@@ -97,6 +102,8 @@ public class FiniteSet implements Tree{
         if (finiteSet.root < elt) {
 	    finiteSet.right = finiteSet.right.add(elt);
         }
+        // If the element is already in the tree -> do nothing -> just return
+        // the tree
 	// Return the tree when we're done
 	return finiteSet;
     }
@@ -105,12 +112,15 @@ public class FiniteSet implements Tree{
 	// (remove t elt) → finite-set
 	// t : finite-set
 	// elt : integer
-	// Returns a new FiniteSet without the element
+	// Returns a new FiniteSet without the element; we assume FiniteSets 
+        // don't contain duplicates
  
     public Tree remove (int elt) {
 	// If this element equals the root; then take out the root by unioning
         // the two children
 	if (this.root  == elt) {
+            // Turning two trees into one tree without the element that we 
+            // return
 	    return this.left.union(this.right);
 	} else { 
 		if (this.root > elt){ 
@@ -207,15 +217,6 @@ public class FiniteSet implements Tree{
 	    }
             return bool;
         }
-
-   public void printAllElements() {
-        String string = " ";
-        string += this.root;
-        this.left.printAllElements();
-        this.right.printAllElements();
-        System.out.print(string);
-        }
-
                 
     public static void main(String[] args) {
         // Testing our random number generator
@@ -225,104 +226,185 @@ public class FiniteSet implements Tree{
         System.out.println("random int = "+ rndInt(1, 50));
         System.out.println("random int = "+ rndInt(1, 50));
         System.out.println("random int = "+ rndInt(1, 50));
+       
         
-        // Seems to be working.. Now making some random trees
-        rndTree(1).printAllElements();
-        System.out.println();
-        rndTree(2).printAllElements();
-        System.out.println();
-        rndTree(3).printAllElements();
-        System.out.println();
-        rndTree(4).printAllElements();
-        System.out.println();
-        rndTree(5).printAllElements();
-        System.out.println();
-        rndTree(6).printAllElements();
-        System.out.println();
+        // Testing for Cardinality & IsEmptyHuh
+          for (int i = 0; i < 25; i++) {
+            int elt = rndInt(0, 10);
+            int len = rndInt(0, 10);
+            Tree l = rndTree(len);
+            checkTree_isEmptyHuh_cardinality(l);
+            
+        }
+        // A quick test -> should return SUCCESS
+        System.out.print("Should be success = ");
+        checkTree_isEmptyHuh_cardinality(empty());
+        
+        
+        // Testing Cardinality & Add
+        for (int i = 0; i < 25; i++) {
+            int elt = rndInt(0, 10);
+            int len = rndInt(0, 10);
+            Tree l = rndTree(len);
+            checkTree_add_cardinality(l, elt);
+            
+        }
        
         
         
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        // A COUPLE OF TESTS
-       Tree mt = empty();
-        System.out.println( "The length of it is.... " +
-                            mt.cardinality() );
-       FiniteSet l5 = (new FiniteSet (5, empty(), empty()));
-       FiniteSet l6 = (new FiniteSet (6, empty(), empty()));
-        System.out.println( "The length of it is.... " +
-                            l5.cardinality() );
+       // Testing Cardinality & Remove --> remove not working
+        for ( int i = 0; i < 25; i ++ ) {
+            int elt = rndInt(0, 10);
+            int len = rndInt(0, 10);
+            Tree l = rndTree(len);
+            checkTree_remove_cardinality( l, elt );
+        }
 
-        System.out.println( "The length of mt after we remove 6 is... " +
-                            mt.remove(6).cardinality() +
-                            " should be 0");
-        System.out.println( "The length of l5 after we remove 6 is... " +
-                            l5.remove(6).cardinality() +
-                            " should be 1" );
-        System.out.println( "The length of l5 after we remove 5 is... " +
-                            l5.remove(5).cardinality() +
-                            " should be 0" );
         
-       FiniteSet l7 = (new FiniteSet (7, empty(), empty()));
-       FiniteSet l8 = (new FiniteSet (8, empty(), empty()));
-        System.out.println( "This should have two elements" + l7.union(l8).cardinality());
-        System.out.println( "This should have two elements" + l8.union(l7).cardinality());
-        System.out.println("This should have size of 1 = " + l5.union(mt).cardinality());
-        System.out.println("This should have a size of 1 = " + l6.union(mt).cardinality());
-        System.out.println("This should have a size of 2 = " + l7.add(8).cardinality());
-        System.out.println("This should have a size of 1 = " + mt.add(1).cardinality());
-        System.out.println("This should be false = " + mt.member(1));
-        System.out.println("This should be true = " + l7.member(7));
-        System.out.println("This should be false = " + l8.member(7));
-        System.out.println("This should be true = " + l6.member(6));
         
-       FiniteSet l9 = (new FiniteSet (9, empty(), empty()));
-       FiniteSet l10 = (new FiniteSet (10, empty(), empty()));
         
-       // Inter 
-       System.out.println("This should be 0 = " + l9.inter(l10).cardinality());
-       System.out.println("This should be 1 = " + l9.inter(l9).cardinality());
-       System.out.println("This should be 0 = " + mt.inter(mt).cardinality());
-       System.out.println("This should be 0 = " + l9.inter(mt).cardinality());
-       
-       // Subset 
-       System.out.println("This should be false = " + l9.subset(l10));
-       System.out.println("This should be true = " + l9.subset(l9));
-       System.out.println("This should be true = " + mt.subset(l9));
-       System.out.println("This should be false = " + l9.subset(mt));
-       System.out.println("This should be true = " + mt.subset(mt));
-       
-       // Equals 
-       System.out.println("This should be false = " + l9.equals(l10));
-       System.out.println("This should be true = " + l9.equals(l9));
-       System.out.println("This should be false = " + l9.equals(mt));
-       System.out.println("This should be true = " + mt.equals(l9));
-       System.out.println("This should be true = " + mt.equals(mt));
-       
-       
-       //DIFF
-       System.out.println("This should be 1 = " + l9.diff(l10).cardinality());
-    }
-    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        // Need to test cardinality, isEmptyHuh?, member, add, remove, union
+        // inter, diff, equal, subset
+        // Use properties to test these: 
+   
+        // Another Property: Union
+           // if x is a member of the inter of A & B, then x is a member of A 
+        // and x is a member of B
+        
+         // Another Property: Union
+           // if x is a member of the union of A & B, then x is a member of A 
+        // or x is a member of B
+        
+        // Complement
+           /// B.diff(A) = B - A; --> B removing the elements of A
+        // or x is in A.diff(B) iff x is a member of A and not of B
+        
+        //Adding and then removing the same element
+        // get back the same tree
+        
+        
+        // More Properties
+        // member (add t x) y = true <-> x = y \/ member t y = true
+        // member (union s s') x = true <-> member s x = true \/ member s' x = true
+        
+        // Testing union
+        // forall x, y, s,
+        // x.union(y).subset(s) = x.subet(s) && y,subset(s)
+        
+        // Testing union -> take cardinality before and after and test
+        //forall xy
+        // P(x.union(y).cardinality() <= x.cardinality() + y.cardinality();
+        // Union can't double anything inside ->
+        
+        // Adding in intersection
+        // |S U T| = |S| + |T| - |S inter T|
+        
+        // Look at CMPU 145 Set Theory Notes
+        // If A is a subset of B, then every member of A is in B
+        // Use this in a test
+        // A C B => Every root in every tree of A is a member of B iff A C B
+        
+        // Define a standard
+        // Say why it's good 
+        // Then prove your program does this -> excerpt lines of code
+        
+        // If member then remove == get rid of duplicates
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+//        // A COUPLE OF TESTS
+//       Tree mt = empty();
+//        System.out.println( "The length of it is.... " +
+//                            mt.cardinality() );
+//       FiniteSet l5 = (new FiniteSet (5, empty(), empty()));
+//       FiniteSet l6 = (new FiniteSet (6, empty(), empty()));
+//        System.out.println( "The length of it is.... " +
+//                            l5.cardinality() );
+//
+//        System.out.println( "The length of mt after we remove 6 is... " +
+//                            mt.remove(6).cardinality() +
+//                            " should be 0");
+//        System.out.println( "The length of l5 after we remove 6 is... " +
+//                            l5.remove(6).cardinality() +
+//                            " should be 1" );
+//        System.out.println( "The length of l5 after we remove 5 is... " +
+//                            l5.remove(5).cardinality() +
+//                            " should be 0" );
+//        
+//       FiniteSet l7 = (new FiniteSet (7, empty(), empty()));
+//       FiniteSet l8 = (new FiniteSet (8, empty(), empty()));
+//        System.out.println( "This should have two elements" + l7.union(l8).cardinality());
+//        System.out.println( "This should have two elements" + l8.union(l7).cardinality());
+//        System.out.println("This should have size of 1 = " + l5.union(mt).cardinality());
+//        System.out.println("This should have a size of 1 = " + l6.union(mt).cardinality());
+//        System.out.println("This should have a size of 2 = " + l7.add(8).cardinality());
+//        System.out.println("This should have a size of 1 = " + mt.add(1).cardinality());
+//        System.out.println("This should be false = " + mt.member(1));
+//        System.out.println("This should be true = " + l7.member(7));
+//        System.out.println("This should be false = " + l8.member(7));
+//        System.out.println("This should be true = " + l6.member(6));
+//        
+//       FiniteSet l9 = (new FiniteSet (9, empty(), empty()));
+//       FiniteSet l10 = (new FiniteSet (10, empty(), empty()));
+//        
+//       // Inter 
+//       System.out.println("This should be 0 = " + l9.inter(l10).cardinality());
+//       System.out.println("This should be 1 = " + l9.inter(l9).cardinality());
+//       System.out.println("This should be 0 = " + mt.inter(mt).cardinality());
+//       System.out.println("This should be 0 = " + l9.inter(mt).cardinality());
+//       
+//       // Subset 
+//       System.out.println("This should be false = " + l9.subset(l10));
+//       System.out.println("This should be true = " + l9.subset(l9));
+//       System.out.println("This should be true = " + mt.subset(l9));
+//       System.out.println("This should be false = " + l9.subset(mt));
+//       System.out.println("This should be true = " + mt.subset(mt));
+//       
+//       // Equals 
+//       System.out.println("This should be false = " + l9.equals(l10));
+//       System.out.println("This should be true = " + l9.equals(l9));
+//       System.out.println("This should be false = " + l9.equals(mt));
+//       System.out.println("This should be false = " + mt.equals(l9));
+//       System.out.println("This should be true = " + mt.equals(mt));
+//      
+//       
+//       //DIFF
+//       System.out.println("This should be 1 = " + l9.diff(l10).cardinality());
+//       System.out.println("This should be 1 = " + l7.diff(l10).cardinality());
+//       System.out.println("This should be 1 = " + mt.diff(l10).cardinality());
+//       System.out.println("This should be 0 = " + l10.diff(l10).cardinality());
+}
+//    
 }

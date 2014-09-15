@@ -13,7 +13,7 @@ public interface Tree {
     public Tree diff(Tree u);
     public Boolean equal (Tree u);
     public Boolean subset (Tree u);
-    public void printAllElements();
+   // public void printAllElements();
            
     
 }
