@@ -227,22 +227,24 @@ public class FiniteSet implements Tree{
         System.out.println("random int = "+ rndInt(1, 50));
         System.out.println("random int = "+ rndInt(1, 50));
        
-        
+         System.out.println();
+         System.out.println("Testing for Cardinality & IsEmptyHuh?");
+         System.out.println();
         // Testing for Cardinality & IsEmptyHuh
-          for (int i = 0; i < 25; i++) {
+          for (int i = 0; i < 50; i++) {
             int elt = rndInt(0, 10);
             int len = rndInt(0, 10);
             Tree l = rndTree(len);
             checkTree_isEmptyHuh_cardinality(l);
             
         }
-        // A quick test -> should return SUCCESS
-        System.out.print("Should be success = ");
-        checkTree_isEmptyHuh_cardinality(empty());
-        
+      
+        System.out.println();
+        System.out.println("Testing for Cardinality & Add");
+         System.out.println();
         
         // Testing Cardinality & Add
-        for (int i = 0; i < 25; i++) {
+        for (int i = 0; i < 50; i++) {
             int elt = rndInt(0, 10);
             int len = rndInt(0, 10);
             Tree l = rndTree(len);
@@ -250,18 +252,19 @@ public class FiniteSet implements Tree{
             
         }
        
-        
-        
+         System.out.println();
+        System.out.println("Testing for Cardinality & Remove");
+         System.out.println();
         
        // Testing Cardinality & Remove --> remove not working
-        for ( int i = 0; i < 25; i ++ ) {
+        for ( int i = 0; i < 50; i ++ ) {
             int elt = rndInt(0, 10);
             int len = rndInt(0, 10);
             Tree l = rndTree(len);
             checkTree_remove_cardinality( l, elt );
         }
 
-        
+         System.out.println();
         
         
         
