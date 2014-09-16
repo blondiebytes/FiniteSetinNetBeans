@@ -72,13 +72,12 @@ public class FiniteSet implements Tree{
 	// of the tree and we are done and return true
 	if (root ==  elt) {
 	    return true;
-	} 
-          //If it's not a member of either tree -> return false
-        if (!this.left.member(elt) && !this.right.member(elt)) {
-            return false;
-	}
-        // Otherwise, return true -> because then it must be a member
-        // of the right or left tree
+	} else { if (root > elt) {
+            this.left.member(elt);
+        } else {
+            this.right.member(elt);
+        }
+    }
         return true;
     }
 	
@@ -118,12 +117,14 @@ public class FiniteSet implements Tree{
 	if (this.root  == elt) {
             // Turning two trees into one tree without the element
 	    return this.left.union(this.right);
-        }
-        // Otherwise -> keep the element and check the left and right for the
-        // element and remove it
+        } else { if (this.root > elt) {
+            return new FiniteSet(this.root, this.left.remove(elt), this.right);
+            } else {
            return new FiniteSet(this.root, this.left.remove(elt), 
                     this.right.remove(elt));		
         }
+    }
+    }
     
 
 
