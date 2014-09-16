@@ -11,11 +11,11 @@ public class Testers {
         return rnd.nextInt((max-min) + 1) + min;
     }
     
-    public static Tree rndTree(int branchNumber) {
-        if (branchNumber == 0) {
+    public static Tree rndTree(int count) {
+        if (count == 0) {
             return empty();
         } else {
-            return new FiniteSet(rndInt(0, 50),rndTree(branchNumber-1), rndTree(branchNumber-1));
+            return rndTree(count-1).add(rndInt(0,50));
         }
     }
     
@@ -60,6 +60,7 @@ public class Testers {
             } else System.out.println("Failure");
         }
     }
+    
     
     public static void checkTree_union_cardinality(Tree l, Tree r) {
         Tree union = l.union(r);

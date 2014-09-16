@@ -9,7 +9,6 @@ import static finitesets.Testers.checkTree_union_cardinality;
 import static finitesets.Testers.checkTree_union_member;
 import static finitesets.Testers.rndInt;
 import static finitesets.Testers.rndTree;
-import java.util.Random;
 
 public class FiniteSet implements Tree{
 
@@ -69,16 +68,16 @@ public class FiniteSet implements Tree{
     // Determines if elt is in t
     public boolean member(int elt) {
 	// If the root equals the element, then it's a member
-	// of the tree and we are done and return true
-	if (root ==  elt) {
-	    return true;
-	} else { if (root > elt) {
-            this.left.member(elt);
+        // of the tree and we are done and return true
+        if (root == elt) {
+            return true;
         } else {
-            this.right.member(elt);
+            if (root > elt) {
+                return this.left.member(elt);
+            } else {
+                return this.right.member(elt);
+            }
         }
-    }
-        return true;
     }
 	
 
@@ -87,22 +86,20 @@ public class FiniteSet implements Tree{
     // elt : integer
     // Returns a set containing elt and everything in t
     public FiniteSet add(int elt) {
-	// Create a new Finite Set with this root & left & right trees
-	FiniteSet finiteSet = new FiniteSet(this.root, this.left, this.right);
-        // If the root is greater than the element, then add it to the left 
-	// tree
-	if (finiteSet.root > elt) {
-	    finiteSet.left = finiteSet.left.add(elt);
-	} 
-        // If the root is less than the element, then add it to the 
-        // right tree
-        if (finiteSet.root < elt) {
-	    finiteSet.right = finiteSet.right.add(elt);
+	// If the root is greater than the element, then add it to the left 
+        // tree
+        if (root == elt) {
+            return this;
+        } else {
+            if (root > elt) {
+                return new FiniteSet(this.root, this.left.add(elt), this.right);
+            } 
+            // If the root is less than the element, then add it to the 
+            // right tree
+            else {
+                return new FiniteSet(this.root, this.left, this.right.add(elt));
+            }
         }
-        // If the element is already in the tree -> do nothing -> just return
-        // the tree
-	// Return the tree when we're done
-	return finiteSet;
     }
 
     
@@ -187,7 +184,9 @@ public class FiniteSet implements Tree{
     // u : finite-set
     // Determines if t and u contain the same elements
 	public Boolean equal (Tree u) {
-            return this.inter(u) == this.union(u);
+        return (this.subset(u) && u.subset(this));
+          
+//  return this.inter(u) == this.union(u);
         }
 
 
@@ -196,14 +195,8 @@ public class FiniteSet implements Tree{
     // u : finite-set
     // Determines if t is a subset of u
         public Boolean subset (Tree u) {
-	Boolean bool = false;
-            if (u.member(this.root)) {
-            bool = true;
-        } else {
-            this.left.subset(u);
-            this.right.subset(u);
-	    }
-            return bool;
+            return (u.member(this.root) && this.left.subset(u) 
+                    && this.right.subset(u));
         }
                 
     public static void main(String[] args) {
