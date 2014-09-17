@@ -61,5 +61,9 @@ public class FiniteSet_Empty implements Tree {
         // The empty set is a subset of everything
         return true;
     }
+    
+     public String toString() {
+            return "E";
+        }
 
 }

@@ -124,30 +124,28 @@ public class Testers {
     
     // DIFF NOT WORKING :(
     public static void checkTree_subset_diff (Tree l, Tree r) {
-        // If we take L-R = D; then R cannot be a subset of D beacuse all of
-        // it's elements are not supposed to be their by def of diff
+        // If we take R - L = D; then L is either the empty set or it is not
+        // a subset of it's difference
         Tree difference = l.diff(r);
-        if (!r.subset(difference)) {
+        if (l.isEmptyHuh() || !l.subset(difference)) {
             System.out.println("Success! A tree is not a subset of it's "
                     + "difference in a given universe");
         } else {
-            System.out.println("Failure");
+            System.out.println("Failure on subset_diff with l = " + l.toString()
+                    + " and r = " + r.toString() + " and the diff was " + difference.toString());
         }
     }
     
     // This test also says something is wrong with diff because all of the other
     // tests -> besides the ones using diff -> work
-    public static void checkTree_diff_empty_equal (Tree l, Tree r) {
-        // Two sets have the empty set as their diff iff they are equal
-        if (l.equal(r) && l.diff(r).equal(empty())) {
-            System.out.println("Success! Two trees are equal and their diff is"
-                    + " the empty set");
-        } else if (!l.equal(r) && !l.diff(r).equal(empty())) {
-            System.out.println("Success! Two trees are different and their diff "
-                    + "is not the empty set");
-        } else {
+    public static void checkTree_diff_inter_empty_equal (Tree A, Tree B) {
+        // A inter B = the empty set iff A - B = A
+        if ((A.inter(B)).equal(empty()) && B.diff(A).equal(A)) {
+            System.out.println("Success! A inter B = the empty set iff A - B = A");
+        } else if (!(A.inter(B)).equal(empty()) && !B.diff(A).equal(A)) {
+            System.out.println("Success! A inter B != the empty set iff A - B != A");
+    } else 
             System.out.println("Failure!");
-        }
     }
     
 

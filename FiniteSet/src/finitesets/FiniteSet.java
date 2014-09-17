@@ -3,7 +3,7 @@ package finitesets;
 //import static finitesets.Testers.checkTree_add_cardinality;
 import static finitesets.Testers.checkTree_add_member;
 import static finitesets.Testers.checkTree_cardinality_remove;
-import static finitesets.Testers.checkTree_diff_empty_equal;
+import static finitesets.Testers.checkTree_diff_inter_empty_equal;
 import static finitesets.Testers.checkTree_empty_isEmptyHuh;
 import static finitesets.Testers.checkTree_equal_union_inter;
 import static finitesets.Testers.checkTree_inter_empty;
@@ -169,19 +169,14 @@ public class FiniteSet implements Tree{
     // u : finite-set
     // Returns a set containing everything in t that is not in u
         public Tree diff(Tree u) {
-            // If the root of this object is a member of u, then..
-            if (u.member(this.root)) {
-                // Return the combined left, right, and u tree without
-                // the said object
-               return left.union(right.union(u.remove(this.root)));
-            // Otherwise...
-            } else 
-                // Return the union of the difference of the left and the
-                // difference right
-                {
-                return left.diff(u).union(right.diff(u));
+            // Remove the root of this tree from our input tree u
+            // U - {root}
+             Tree removed = u.remove(root);
+            // Remove the left and the right of this tree from our input
+            // tree u
+            // U - {left U right)
+            return (left.union(right)).diff(removed);
             }
-        }
 
 
     // (equal t u) --> boolean
@@ -202,6 +197,11 @@ public class FiniteSet implements Tree{
         public Boolean subset (Tree u) {
             return (u.member(this.root) && this.left.subset(u) 
                     && this.right.subset(u));
+        }
+        
+        public String toString() {
+            return "(" + this.root + " " + left.toString() + 
+                    " " + right.toString() + ")";
         }
                 
     public static void main(String[] args) {
@@ -327,9 +327,9 @@ public class FiniteSet implements Tree{
                //Adding a random Number so we can get all the cases
                 int randomNumber = rndInt(0,4);
                     if (randomNumber == 3) {
-                            checkTree_diff_empty_equal (l, l);
+                            checkTree_diff_inter_empty_equal (l, l);
                                 }
-              checkTree_diff_empty_equal (l, r);
+              checkTree_diff_inter_empty_equal (l, r);
           } 
       
         System.out.println();
@@ -432,11 +432,11 @@ public class FiniteSet implements Tree{
         
         
 //        // A COUPLE OF TESTS
-//       Tree mt = empty();
+       Tree mt = empty();
 //        System.out.println( "The length of it is.... " +
 //                            mt.cardinality() );
-//       FiniteSet l5 = (new FiniteSet (5, empty(), empty()));
-//       FiniteSet l6 = (new FiniteSet (6, empty(), empty()));
+       FiniteSet l5 = (new FiniteSet (5, empty(), empty()));
+       FiniteSet l6 = (new FiniteSet (6, empty(), empty()));
 //        System.out.println( "The length of it is.... " +
 //                            l5.cardinality() );
 //
@@ -450,8 +450,8 @@ public class FiniteSet implements Tree{
 //                            l5.remove(5).cardinality() +
 //                            " should be 0" );
 //        
-//       FiniteSet l7 = (new FiniteSet (7, empty(), empty()));
-//       FiniteSet l8 = (new FiniteSet (8, empty(), empty()));
+       FiniteSet l7 = (new FiniteSet (7, empty(), empty()));
+       FiniteSet l8 = (new FiniteSet (8, empty(), empty()));
 //        System.out.println( "This should have two elements" + l7.union(l8).cardinality());
 //        System.out.println( "This should have two elements" + l8.union(l7).cardinality());
 //        System.out.println("This should have size of 1 = " + l5.union(mt).cardinality());
@@ -463,8 +463,8 @@ public class FiniteSet implements Tree{
 //        System.out.println("This should be false = " + l8.member(7));
 //        System.out.println("This should be true = " + l6.member(6));
 //        
-//       FiniteSet l9 = (new FiniteSet (9, empty(), empty()));
-//       FiniteSet l10 = (new FiniteSet (10, empty(), empty()));
+       FiniteSet l9 = (new FiniteSet (9, empty(), empty()));
+       FiniteSet l10 = (new FiniteSet (10, empty(), empty()));
 //        
 //       // Inter 
 //       System.out.println("This should be 0 = " + l9.inter(l10).cardinality());
@@ -487,11 +487,7 @@ public class FiniteSet implements Tree{
 //       System.out.println("This should be true = " + mt.equals(mt));
 //      
 //       
-//       //DIFF
-//       System.out.println("This should be 1 = " + l9.diff(l10).cardinality());
-//       System.out.println("This should be 1 = " + l7.diff(l10).cardinality());
-//       System.out.println("This should be 1 = " + mt.diff(l10).cardinality());
-//       System.out.println("This should be 0 = " + l10.diff(l10).cardinality());
+//       
 }
 //    
     //      
