@@ -53,16 +53,32 @@ public class Testers {
         }
     }
     
-     public static void checkTree_cardinality_add(Tree l, int elt) {
-        int more = l.add(elt).cardinality();
-         if (more == (l.cardinality() + 1))  {
-            System.out.println("Success! An item was added!");
-        } else {if (more == l.cardinality()) {
-                System.out.println("Success! An item was already there so it was "
-                        + "not added!");
+         public static void checkTree_cardinality_remove(Tree l, int elt ) {
+        int left = l.remove(elt).cardinality();
+        // Either something was removed -> and it decreased the tree by one
+        // Or the thing wasn't there to begin with, and nothing was removed
+        if (left == (l.cardinality() - 1))  {
+            System.out.println("Success! An item was removed!");
+        } else {if (left == l.cardinality()) {
+                System.out.println("Success! An item was not there so it was "
+                        + "not removed!");
             } else System.out.println("Failure");
         }
     }
+         
+         public static void checkTree_remove_equal_add(Tree l, int elt) {
+             // Add and remove the same element from a copied tree
+             Tree newTree = l.add(elt);
+             newTree = l.remove(elt);
+             // If the tree we messed with is the same as the original tree
+             // then we are correct!
+             if (l.equal(newTree)) {
+                 System.out.println("Success! The tree stayed the same after "
+                         + "adding and removing the same item.");
+             } else {
+                 System.out.println("Failure! The tree changed");
+             }
+         }
 
      
     public static void checkTree_add_member(Tree l, int x, int y) {
@@ -105,16 +121,60 @@ public class Testers {
         }
     }
     
+    
+    // DIFF NOT WORKING :(
     public static void checkTree_subset_diff (Tree l, Tree r) {
-        
+        // If we take L-R = D; then R cannot be a subset of D beacuse all of
+        // it's elements are not supposed to be their by def of diff
+        Tree difference = l.diff(r);
+        if (!r.subset(difference)) {
+            System.out.println("Success! A tree is not a subset of it's "
+                    + "difference in a given universe");
+        } else {
+            System.out.println("Failure");
+        }
     }
     
-    public static void checkTree_diff_equals (Tree l, Tree r) {
-        
+    // This test also says something is wrong with diff because all of the other
+    // tests -> besides the ones using diff -> work
+    public static void checkTree_diff_empty_equal (Tree l, Tree r) {
+        // Two sets have the empty set as their diff iff they are equal
+        if (l.equal(r) && l.diff(r).equal(empty())) {
+            System.out.println("Success! Two trees are equal and their diff is"
+                    + " the empty set");
+        } else if (!l.equal(r) && !l.diff(r).equal(empty())) {
+            System.out.println("Success! Two trees are different and their diff "
+                    + "is not the empty set");
+        } else {
+            System.out.println("Failure!");
+        }
     }
     
-    public static void checkTree_equals_union_inter (Tree l, Tree r) {
-        
+
+    public static void checkTree_equal_union_inter (Tree l, Tree r) { 
+        // Two sets are equal iff their union and intersection is the same
+        if ((l.union(r).equal(l.inter(r))) && l.equal(r)) {
+            System.out.println("Success! The two trees are equal and have "
+                    + "the same intersection and union");
+        } else if ((l.union(r) != l.inter(r)) && !l.equal(r)) {
+            System.out.println("Success! They are not equal and their"
+                    + " intersection and union are different");
+        } else {
+            System.out.println("Failure!");
+        }
+    }
+    
+    // The Identity Property for Inter
+    public static void checkTree_inter_empty(Tree l) {
+        Boolean bool = l.inter(empty()).equal(empty());
+        // If the intersection of any tree with the empty set
+        // equals the empty set...
+        if (bool) {
+            System.out.println("Success! The intersection of any tree with the "
+                    + "empty set is just the empty set!");
+        } else {
+             System.out.println("Failure!");
+        }
     }
     
     
@@ -161,6 +221,18 @@ public class Testers {
 //                    + "of the finite set");
 //        }
    // }
+    
+    
+//     public static void checkTree_cardinality_add(Tree l, int elt) {
+//        int more = l.add(elt).cardinality();
+//         if (more == (l.cardinality() + 1))  {
+//            System.out.println("Success! An item was added!");
+//        } else {if (more == l.cardinality()) {
+//                System.out.println("Success! An item was already there so it was "
+//                        + "not added!");
+//            } else System.out.println("Failure");
+//        }
+//    }
         
 }
   

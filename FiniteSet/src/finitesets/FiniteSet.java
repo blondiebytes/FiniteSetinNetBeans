@@ -2,10 +2,15 @@
 package finitesets;
 //import static finitesets.Testers.checkTree_add_cardinality;
 import static finitesets.Testers.checkTree_add_member;
-import static finitesets.Testers.checkTree_cardinality_add;
+import static finitesets.Testers.checkTree_cardinality_remove;
+import static finitesets.Testers.checkTree_diff_empty_equal;
 import static finitesets.Testers.checkTree_empty_isEmptyHuh;
+import static finitesets.Testers.checkTree_equal_union_inter;
+import static finitesets.Testers.checkTree_inter_empty;
 import static finitesets.Testers.checkTree_isEmptyHuh_cardinality;
 import static finitesets.Testers.checkTree_member_union;
+import static finitesets.Testers.checkTree_remove_equal_add;
+import static finitesets.Testers.checkTree_subset_diff;
 import static finitesets.Testers.checkTree_union_subset;
 import static finitesets.Testers.rndInt;
 import static finitesets.Testers.rndTree;
@@ -222,62 +227,36 @@ public class FiniteSet implements Tree{
          System.out.println();
 //        // Testing for Cardinality & IsEmptyHuh
           for (int i = 0; i < 50; i++) {
-            int elt = rndInt(0, 10);
             int len = rndInt(0, 10);
             Tree l = rndTree(len);
             checkTree_isEmptyHuh_cardinality(l);
             
         }
-      
-        System.out.println();
-        System.out.println("Testing: Cardinality & Add");
+          
          System.out.println();
-//        
-//        // Testing Cardinality & Add
-        for (int i = 0; i < 50; i++) {
+        System.out.println("Testing: Cardinality & Remove");
+         System.out.println();
+        
+       // Testing Cardinality & Remove
+        for ( int i = 0; i < 50; i ++ ) {
             int elt = rndInt(0, 10);
             int len = rndInt(0, 10);
             Tree l = rndTree(len);
-            checkTree_cardinality_add(l, elt);
-            
+            checkTree_cardinality_remove( l, elt );
         }
-//       
-//         System.out.println();
-//        System.out.println("Testing for Cardinality & Remove");
-//         System.out.println();
-//        
-//       // Testing Cardinality & Remove --> remove not working
-//        for ( int i = 0; i < 50; i ++ ) {
-//            int elt = rndInt(0, 10);
-//            int len = rndInt(0, 10);
-//            Tree l = rndTree(len);
-//            checkTree_remove_cardinality( l, elt );
-//        }
 //
-//        System.out.println();
-//        System.out.println("Testing Cardinality & Union");
-//        System.out.println();
-//          for ( int i = 0; i < 50; i ++ ) {
-//            int len = rndInt(0, 10);
-//            int len2 = rndInt(0, 10);
-//            Tree l = rndTree(len);
-//            Tree r = rndTree(len2);
-//            checkTree_union_cardinality( l, r);
-//        }
-//         
+         System.out.println();
+        System.out.println("Testing: Remove (EQUAL) &  Add");
+         System.out.println();
         
-        
-//        System.out.println();
-//        System.out.println("Basic Testing for Add and Member");
-//        System.out.println();
-         
-//         // Testing Add & Member
-//         for ( int i = 0; i < 50; i ++ ) {
-//            int elt = rndInt(0, 10);
-//            int len = rndInt(0, 10);
-//            Tree l = rndTree(len);
-//            checkTree_add_member( l, elt );
-//        }
+       // Testing Remove & Add
+        for ( int i = 0; i < 50; i ++ ) {
+            int elt = rndInt(0, 10);
+            int len = rndInt(0, 10);
+            Tree l = rndTree(len);
+            checkTree_remove_equal_add( l, elt );
+        }
+       
         
         System.out.println();
         System.out.println("Testing: Add & Member");
@@ -309,7 +288,7 @@ public class FiniteSet implements Tree{
           }
           
         System.out.println();
-        System.out.println("Testing Union & Subset");
+        System.out.println("Testing: Union & Subset");
         System.out.println();
           
         // Testing Union & Subset 
@@ -321,9 +300,68 @@ public class FiniteSet implements Tree{
               checkTree_union_subset(l,r);
           }
         
+ 
+        System.out.println();
+        System.out.println("Testing: Subset & Diff");
+        System.out.println();
+          
+        // Testing Subset & Diff 
+             for (int i = 0; i < 50; i++) {
+              int len = rndInt(0,10);
+              int len2 = rndInt(0, 10);
+              Tree l = rndTree(len);
+              Tree r = rndTree(len2);
+              checkTree_subset_diff(l, r);
+          }
         
-        
-        
+        System.out.println();
+        System.out.println("Testing: Diff (EMPTY) & Equal");
+        System.out.println();
+          
+        // Testing: Equal (UNION) & Inter
+             for (int i = 0; i < 50; i++) {
+                 int len = rndInt(0,10);
+              int len2 = rndInt(0, 10);
+              Tree l = rndTree(len);
+              Tree r = rndTree(len2);
+               //Adding a random Number so we can get all the cases
+                int randomNumber = rndInt(0,4);
+                    if (randomNumber == 3) {
+                            checkTree_diff_empty_equal (l, l);
+                                }
+              checkTree_diff_empty_equal (l, r);
+          } 
+      
+        System.out.println();
+        System.out.println("Testing: Equal (UNION) & Inter");
+        System.out.println();
+          
+        // Testing: Equal (UNION) & Inter
+             for (int i = 0; i < 50; i++) {
+                 int len = rndInt(0,10);
+              int len2 = rndInt(0, 10);
+              Tree l = rndTree(len);
+              Tree r = rndTree(len2);
+               //Adding a random Number so we can get all the cases
+                int randomNumber = rndInt(0,4);
+                    if (randomNumber == 3) {
+                            checkTree_equal_union_inter(l, l);
+                                }
+              checkTree_equal_union_inter(l, r);
+          } 
+             
+             
+            
+        System.out.println();
+        System.out.println("Testing Inter & Empty()");
+        System.out.println();
+          
+        // Testing Inter & Empty() 
+             for (int i = 0; i < 50; i++) {
+              int len = rndInt(0,10);
+              Tree l = rndTree(len);
+              checkTree_inter_empty(l);
+          }
         
         
         
@@ -456,4 +494,44 @@ public class FiniteSet implements Tree{
 //       System.out.println("This should be 0 = " + l10.diff(l10).cardinality());
 }
 //    
+    //      
+//        System.out.println();
+//        System.out.println("Testing: Cardinality & Add");
+//         System.out.println();
+////        
+////        // Testing Cardinality & Add
+//        for (int i = 0; i < 50; i++) {
+//            int elt = rndInt(0, 10);
+//            int len = rndInt(0, 10);
+//            Tree l = rndTree(len);
+//            checkTree_cardinality_add(l, elt);
+//            
+//        }
+////       
+    
+    
+//        System.out.println();
+//        System.out.println("Testing Cardinality & Union");
+//        System.out.println();
+//          for ( int i = 0; i < 50; i ++ ) {
+//            int len = rndInt(0, 10);
+//            int len2 = rndInt(0, 10);
+//            Tree l = rndTree(len);
+//            Tree r = rndTree(len2);
+//            checkTree_union_cardinality( l, r);
+//        }
+//         
+        
+        
+//        System.out.println();
+//        System.out.println("Basic Testing for Add and Member");
+//        System.out.println();
+         
+//         // Testing Add & Member
+//         for ( int i = 0; i < 50; i ++ ) {
+//            int elt = rndInt(0, 10);
+//            int len = rndInt(0, 10);
+//            Tree l = rndTree(len);
+//            checkTree_add_member( l, elt );
+//        }
 }
