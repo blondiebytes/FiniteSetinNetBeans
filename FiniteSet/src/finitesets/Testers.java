@@ -20,7 +20,7 @@ public class Testers {
     }
     
     public static void checkTree_empty_isEmptyHuh(int count) {
-        // Upping the odds -> creating a empty tree or a random tree
+        // Creating a empty tree or a random tree
         if (count == 0) {
             Tree t = empty();
             if (t.isEmptyHuh()) {
@@ -39,110 +39,117 @@ public class Testers {
     }
     }
     
-    public static void checkTree_isEmptyHuh_cardinality(Tree l) {
-        // If the tree is not empty, it shouldn't have a cardinality of zero
-        // If the tree is empty, it should have a cardinality of zero
-        if (((l.cardinality() != 0) && !l.isEmptyHuh())) {
+    public static void checkTree_isEmptyHuh_cardinality(Tree t) {
+        if (t.isEmptyHuh() && (t.cardinality() == 0)) {
+            System.out.println("Success! It was empty and had a "
+                    + "cardinality equal to zero");
+        } else {
+            if (!t.isEmptyHuh() && (t.cardinality() != 0)) {
                 System.out.println("Success! "
                         + "It was non-empty and "
                         + "had a cardinality greater than zero.");
-            } else {if (l.isEmptyHuh() && (l.cardinality() == 0)) {
-                System.out.println("Success! It was empty and had a "
-                        + "cardinality equal to zero");
-            } else System.out.println("Failure");
+            } else {
+                System.out.println("Failure - the cardinality did not match"
+                        + " the type of set.");
+            }
         }
     }
     
-         public static void checkTree_cardinality_remove(Tree l, int elt ) {
-        int left = l.remove(elt).cardinality();
+         public static void checkTree_cardinality_remove(Tree t, int x ) {
+        int nT = t.remove(x).cardinality();
         // Either something was removed -> and it decreased the tree by one
         // Or the thing wasn't there to begin with, and nothing was removed
-        if (left == (l.cardinality() - 1))  {
+        if (nT == (t.cardinality() - 1))  {
             System.out.println("Success! An item was removed!");
-        } else {if (left == l.cardinality()) {
+        } else {if (nT == t.cardinality()) {
                 System.out.println("Success! An item was not there so it was "
                         + "not removed!");
-            } else System.out.println("Failure");
+            } else System.out.println("Failure - the remove and/or cardinality"
+                    + " function failed :( ");
         }
     }
          
-         public static void checkTree_remove_equal_add(Tree l, int elt) {
+         public static void checkTree_remove_equal_add(Tree t) {
              // Add and remove the same element from a copied tree
-             Tree newTree = l.add(elt);
-             newTree = l.remove(elt);
+             int rand = rndInt(51,100);
+             Tree nT = t.add(rand);
+             nT = nT.remove(rand);
              // If the tree we messed with is the same as the original tree
              // then we are correct!
-             if (l.equal(newTree)) {
+             if (t.equal(nT)) {
                  System.out.println("Success! The tree stayed the same after "
                          + "adding and removing the same item.");
              } else {
-                 System.out.println("Failure! The tree changed");
+                 System.out.println("Failure! The tree changed.");
              }
          }
 
      
-    public static void checkTree_add_member(Tree l, int x, int y) {
-        Boolean bool = l.add(x).member(y);
+    public static void checkTree_add_member(Tree t, int x, int y) {
+        Boolean bool = t.add(x).member(y);
         if ( bool && x == y) {
             System.out.println("Success! X = Y and it's in the tree");
-        } else { if (bool && l.member(y)) {
+        } else { if (bool && t.member(y)) {
             System.out.println("Success! Y was a member of y beforehand and "
                     + "it's in the tree");
-        } else { if (!bool && (x != y || !l.member(y))) {
+        } else { if (!bool && (x != y && !t.member(y))) {
             System.out.println("Success! X != Y and is not a member of the original"
                     + " tree and therefore is not a member of this tree");
-        } else { System.out.println("Failure!");
+        } else { System.out.println("Failure! Problem with member or add!");
         }
         }
     }
     }
     
-    public static void checkTree_member_union(Tree l, Tree r, int x) {
-        Boolean bool = l.union(r).member(x);
-        if ( bool && l.member(x)) {
-            System.out.println("Success! X is a member of the l tree");
+    public static void checkTree_member_union(Tree t, Tree r, int x) {
+        Boolean bool = t.union(r).member(x);
+        if ( bool && t.member(x)) {
+            System.out.println("Success! X is a member of the t tree");
         } else { if (bool && r.member(x)) {
             System.out.println("Success! X is a member of the r tree");
-        } else { if (!bool && (!r.member(x) && !l.member(x))) {
+        } else { if (!bool && (!r.member(x) && !t.member(x))) {
             System.out.println("Success! X is not a member of the right or left "
                     + "tree and therefore not a part of the union");
-        } else { System.out.println("Failure!");}
+        } else { System.out.println("Failure! Problem with member or union!");}
         }
         }
     }
     
-    public static void checkTree_union_subset (Tree l, Tree r) {
-        Tree unionLR = l.union(r);
-        if (l.subset(unionLR) && r.subset(unionLR)) {
+    public static void checkTree_union_subset (Tree t, Tree r) {
+        Tree unionLR = t.union(r);
+        if (t.subset(unionLR) && r.subset(unionLR)) {
             System.out.println("Success! The left and right trees are subsets"
                     + " of their union");
         } else {
-            System.out.println("Failure!");
+            System.out.println("Failure! Problem with union or subset!");
         }
     }
     
     
-    // DIFF NOT WORKING :(
-    public static void checkTree_subset_diff (Tree l, Tree r) {
-        // If we take R - L = D; then L is either the empty set or it is not
+    // 
+    public static void checkTree_subset_diff (Tree t, Tree r) {
+        // If we take R - T = D; then T is either the empty set or it is not
         // a subset of it's difference
-        Tree difference = l.diff(r);
-        if (l.isEmptyHuh() || !l.subset(difference)) {
-            System.out.println("Success! A tree is not a subset of it's "
-                    + "difference in a given universe");
-        } else {
-            System.out.println("Failure on subset_diff with l = " + l.toString()
-                    + " and r = " + r.toString() + " and the diff was " + difference.toString());
+        Tree difference = t.diff(r);
+        if (t.isEmptyHuh()) {
+            System.out.println("Success! The tree t is empty leaving the diff "
+                    + "to be all of r");
+        } else if (!t.subset(difference)) {
+            System.out.println("Success! A tree is not a subset of the "
+                    + "difference");
+        }
+            else {
+            System.out.println("Failure! Problem with subset or diff!");
         }
     }
-    
+   
     // This test also says something is wrong with diff because all of the other
     // tests -> besides the ones using diff -> work
-    public static void checkTree_diff_inter_empty_equal (Tree A, Tree B) {
-        // A inter B = the empty set iff A - B = A
-        if ((A.inter(B)).equal(empty()) && B.diff(A).equal(A)) {
+    public static void checkTree_diff_inter_empty_equal (Tree t, Tree r) {
+        // t inter B = the empty set iff t - B = t
+        if ((t.inter(r)).equal(empty()) && r.diff(t).equal(t)) {
             System.out.println("Success! A inter B = the empty set iff A - B = A");
-        } else if (!(A.inter(B)).equal(empty()) && !B.diff(A).equal(A)) {
+        } else if (!(t.inter(r)).equal(empty()) && !r.diff(t).equal(t)) {
             System.out.println("Success! A inter B != the empty set iff A - B != A");
     } else 
             System.out.println("Failure!");

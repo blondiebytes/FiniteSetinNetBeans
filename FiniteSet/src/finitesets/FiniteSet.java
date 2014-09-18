@@ -91,11 +91,11 @@ public class FiniteSet implements Tree{
     // elt : integer
     // Returns a set containing elt and everything in t
     public FiniteSet add(int elt) {
-	// If the root is greater than the element, then add it to the left 
-        // tree
         if (root == elt) {
             return this;
         } else {
+            // If the root is greater than the element, then add it to the left 
+        // tree
             if (root > elt) {
                 return new FiniteSet(this.root, this.left.add(elt), this.right);
             } 
@@ -251,10 +251,9 @@ public class FiniteSet implements Tree{
         
        // Testing Remove & Add
         for ( int i = 0; i < 50; i ++ ) {
-            int elt = rndInt(0, 10);
             int len = rndInt(0, 10);
             Tree l = rndTree(len);
-            checkTree_remove_equal_add( l, elt );
+            checkTree_remove_equal_add( l);
         }
        
         
@@ -315,10 +314,10 @@ public class FiniteSet implements Tree{
           }
         
         System.out.println();
-        System.out.println("Testing: Diff (EMPTY) & Equal");
+        System.out.println("Testing: Diff (EMPTY & INTER) & Equal");
         System.out.println();
           
-        // Testing: Equal (UNION) & Inter
+        // Testing: Diff (EMPTY & Inter) & Equal
              for (int i = 0; i < 50; i++) {
                  int len = rndInt(0,10);
               int len2 = rndInt(0, 10);
