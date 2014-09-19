@@ -5,7 +5,7 @@
             <url>src/finitesets/Testers.java</url>
             <bookmark id="2">
                 <name/>
-                <line>85</line>
+                <line>89</line>
                 <key/>
             </bookmark>
         </file>
@@ -13,13 +13,14 @@
             <url>src/finitesets/FiniteSet.java</url>
             <bookmark id="1">
                 <name/>
-                <line>199</line>
+                <line>184</line>
                 <key/>
             </bookmark>
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/Users/kathrynhodge/Desktop/stuff/Vassar/CMPU%20203/FiniteSetinNetBeans/FiniteSet/src/finitesets/Tree.java</file>
             <file>file:/Users/kathrynhodge/Desktop/stuff/Vassar/CMPU%20203/FiniteSetinNetBeans/FiniteSet/src/finitesets/Testers.java</file>
             <file>file:/Users/kathrynhodge/Desktop/stuff/Vassar/CMPU%20203/FiniteSetinNetBeans/FiniteSet/src/finitesets/FiniteSet.java</file>
             <file>file:/Users/kathrynhodge/Desktop/stuff/Vassar/CMPU%20203/FiniteSetinNetBeans/FiniteSet/src/finitesets/FiniteSet_Empty.java</file>

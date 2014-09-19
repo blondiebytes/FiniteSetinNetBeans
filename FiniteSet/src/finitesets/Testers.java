@@ -146,99 +146,47 @@ public class Testers {
     // This test also says something is wrong with diff because all of the other
     // tests -> besides the ones using diff -> work
     public static void checkTree_diff_inter_empty_equal (Tree t, Tree r) {
-        // t inter B = the empty set iff t - B = t
+        // t inter r = the empty set iff t - r = t
         if ((t.inter(r)).equal(empty()) && r.diff(t).equal(t)) {
             System.out.println("Success! A inter B = the empty set iff A - B = A");
         } else if (!(t.inter(r)).equal(empty()) && !r.diff(t).equal(t)) {
             System.out.println("Success! A inter B != the empty set iff A - B != A");
     } else 
-            System.out.println("Failure!");
+            System.out.println("Failure! Wrong: diff, inter, empty, or equal");
     }
     
 
-    public static void checkTree_equal_union_inter (Tree l, Tree r) { 
+    public static void checkTree_equal_union_inter (Tree t, Tree r) { 
         // Two sets are equal iff their union and intersection is the same
-        if ((l.union(r).equal(l.inter(r))) && l.equal(r)) {
+        if ((t.union(r).equal(t.inter(r))) && t.equal(r)) {
             System.out.println("Success! The two trees are equal and have "
                     + "the same intersection and union");
-        } else if ((l.union(r) != l.inter(r)) && !l.equal(r)) {
+        } else if ((t.union(r) != t.inter(r)) && !t.equal(r)) {
             System.out.println("Success! They are not equal and their"
                     + " intersection and union are different");
         } else {
-            System.out.println("Failure!");
+            System.out.println("Failure! Wrong: equal, union, or diff");
         }
     }
     
     // The Identity Property for Inter
-    public static void checkTree_inter_empty(Tree l) {
-        Boolean bool = l.inter(empty()).equal(empty());
+    public static void checkTree_inter_empty(Tree t) {
+        Boolean bool = t.inter(empty()).equal(empty());
         // If the intersection of any tree with the empty set
         // equals the empty set...
-        if (bool) {
-            System.out.println("Success! The intersection of any tree with the "
+        if (bool && !t.isEmptyHuh()) {
+            System.out.println("Success! The intersection of a non-empty"
+                    + " set with the "
                     + "empty set is just the empty set!");
+        } else if (bool && t.isEmptyHuh()) {
+            System.out.println("Success! The intersection of an empty set"
+                    + " with the empty set is just the empty set!");
         } else {
-             System.out.println("Failure!");
+             System.out.println("Failure! Wrong: inter, equal, isEmptyHuh, or "
+                     + "empty()");
         }
     }
     
-    
-   
-    
-//    // Properties: EXAMPLES
-//            
-//    
-//    public static void checkTree_remove_cardinality(Tree l, int elt ) {
-//        int left = l.remove(elt).cardinality();
-//        // Either something was removed -> and it decreased the tree by one
-//        // Or the thing wasn't there to begin with, and nothing was removed
-//        if (left == (l.cardinality() - 1))  {
-//            System.out.println("Success! An item was removed!");
-//        } else {if (left == l.cardinality()) {
-//                System.out.println("Success! An item was not there so it was "
-//                        + "not removed!");
-//            } else System.out.println("Failure");
-//        }
-//    }
-//    
-//    
-//    
-//    public static void checkTree_union_cardinality(Tree l, Tree r) {
-//        Tree union = l.union(r);
-//        if (union.cardinality() < l.cardinality() + r.cardinality()) {
-//            System.out.println("Success! There were elements in common that "
-//                    + "weren't duplicated in the union");
-//        } else {if (union.cardinality() == l.cardinality() + r.cardinality()) {
-//                System.out.println("Success! l & r were disjoint.");
-//            } else System.out.println("Failure");
-//        }
-//        
-//    }
-    
-    
-    
-//    public static void checkTree_add_member(Tree l, int elt) {
-//        Tree newTree = l.add(elt);
-//        if (newTree.member(elt)) {
-//            System.out.println("Success! It was added to the tree");
-//        } else {
-//            System.out.println("Failure! The added element is not a member "
-//                    + "of the finite set");
-//        }
-   // }
-    
-    
-//     public static void checkTree_cardinality_add(Tree l, int elt) {
-//        int more = l.add(elt).cardinality();
-//         if (more == (l.cardinality() + 1))  {
-//            System.out.println("Success! An item was added!");
-//        } else {if (more == l.cardinality()) {
-//                System.out.println("Success! An item was already there so it was "
-//                        + "not added!");
-//            } else System.out.println("Failure");
-//        }
-//    }
-        
 }
   
 
