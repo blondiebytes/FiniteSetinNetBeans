@@ -11,7 +11,7 @@ import static finitesets.Testers.checkTree_isEmptyHuh_cardinality;
 import static finitesets.Testers.checkTree_member_union;
 import static finitesets.Testers.checkTree_remove_equal_add;
 import static finitesets.Testers.checkTree_subset_diff;
-import static finitesets.Testers.checkTree_union_subset;
+    import static finitesets.Testers.checkTree_union_subset;
 import static finitesets.Testers.rndInt;
 import static finitesets.Testers.rndTree;
 
