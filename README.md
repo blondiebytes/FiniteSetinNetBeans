@@ -1,7 +1,5 @@
-Data 1 : Finite Sets
+Finite Sets
 ===================
-
-Fall 2014: CS 203
 
 3.1 Finite Sets
 
