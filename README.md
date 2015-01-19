@@ -64,7 +64,4 @@ member (add t x) y = true <-> x = y \/ member t y = true
 member (union s s') x = true <-> member s x = true \/ member s' x = true
 I highly suggest you use these properties to randomly generate large numbers of test cases and search for witnesses of their negation.
 
-3.1.1 Turn-in and Grading
-You should turn in your source code, a console transcript of your test suite’s execution, and an essay which describes your approach to implementing and verifying the system. Your essay should probably make reference to specific lines in your source code and test transcript.
-
-You will be graded on the persuasiveness of your essay.
+You should bring in your source code, a console transcript of your test suite’s execution, and an essay which describes your approach to implementing and verifying the system. Your essay should probably make reference to specific lines in your source code and test transcript.
